@@ -15,4 +15,13 @@ router.get('/getProjectList', (req, res) => {
   });
 });
 
+router.get('/session_data', (req, res) => {
+  if (req.user === undefined) {
+    const user = { user: '' };
+    res.json({ hits: user });
+    return;
+  }
+  res.json({ hits: req.user });
+});
+
 module.exports = router;

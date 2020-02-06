@@ -4,6 +4,7 @@ import axios from 'axios';
 import '@babel/polyfill';
 
 const Project = () => {
+  // console.log("project");
   // const [data, setData] = useState(0);
   // useEffect(() => {
   //   console.log(data);
@@ -21,22 +22,20 @@ const Project = () => {
     const fetchData = async () => {
       const result = await axios(
         // 'https://hn.algolia.com/api/v1/search?query=redux',
-        '/project_data/getProjectList',
+        '/data/getProjectList',
       );
       setData(result.data);
     };
     fetchData();
   }, []);
   return (
-    // <div>
-    // </div>
     <div id="project">
       <div className="project">
         <h1 className="sub_tit"><span>project</span></h1>
         <ul>
           {data.hits.map((item) => (
             <li key={item.seq}>
-              <Link to={`/project/${item.seq}`}>
+              <Link to={`/${item.seq}`}>
                 <img src={item.p_img} alt={item.p_title} />
                 <strong>{item.p_title}</strong>
                 <span>{item.p_desc}</span>

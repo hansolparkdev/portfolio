@@ -8,9 +8,7 @@ const passportConfig = require('./services/passport');
 const app = express();
 
 const mainRoute = require('./routes/mainRoute');
-const projectDataRoute = require('./routes/projectDataRoute');
-const loginRoute = require('./routes/loginRoute');
-const projectRoute = require('./routes/projectRoute');
+const dataRoute = require('./routes/dataRoute');
 
 // 세션 활성화
 app.use(session({
@@ -32,10 +30,7 @@ app.set('view engine', 'html');
 app.use('/static', express.static(`${__dirname}/public`));
 app.use('/img', express.static(`${__dirname}/public/img`));
 app.use('/fonts', express.static(`${__dirname}/public/fonts`));
-app.use('/project_data', projectDataRoute);
-app.use('/login', loginRoute);
-app.use('/project', projectRoute);
-app.use('/main', express.static(`${__dirname}/public`));
+app.use('/data', dataRoute);
 app.use('/', mainRoute);
 
 app.listen(3000, () => {
