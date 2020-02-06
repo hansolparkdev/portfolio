@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Login = (props) => {
-  console.log('login');
   const [dataa, setDataa] = useState({ hits: {} });
   useEffect(() => {
     const fetchDataa = async () => {
