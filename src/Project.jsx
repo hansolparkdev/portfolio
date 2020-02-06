@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '@babel/polyfill';
 
@@ -35,11 +36,11 @@ const Project = () => {
         <ul>
           {data.hits.map((item) => (
             <li key={item.seq}>
-              <a href={`/project/${item.seq}`}>
+              <Link to={`/project/${item.seq}`}>
                 <img src={item.p_img} alt={item.p_title} />
                 <strong>{item.p_title}</strong>
                 <span>{item.p_desc}</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

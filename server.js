@@ -35,6 +35,7 @@ app.use('/fonts', express.static(`${__dirname}/public/fonts`));
 app.use('/project_data', projectDataRoute);
 app.use('/login', loginRoute);
 app.use('/project', projectRoute);
+app.use('/main', express.static(`${__dirname}/public`));
 app.use('/', mainRoute);
 
 app.listen(3000, () => {

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable prefer-object-spread */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable import/extensions */
@@ -6,13 +7,14 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
-  Route, Switch, useParams,
+  Route, Switch, useParams, Link,
 } from 'react-router-dom';
 import './css/style.css';
 import { createStore } from 'redux';
 import axios from 'axios';
 import Project from './Project.jsx';
 import Contact from './Contact.jsx';
+// import Header from './Header.jsx'
 // eslint-disable-next-line arrow-body-style
 
 // Reducer
@@ -38,29 +40,28 @@ const counterReducer = (state = initialState, action) => {
  */
 const store = createStore(counterReducer);
 
-const Header = () => {
-  const [data, setData] = useState({ hits: {} });
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios(
-        '/login/user_data',
-      );
-      // console.log(result);
-      setData(result.data);
-    };
-    fetchData();
-  }, []);
+const Header = (props) => {
+  console.log('header');
   return (
     <div className="header">
       <h4 className="ir_pm">header container</h4>
       <div className="header-menu">
         <ul>
-          <li><a href="/">HOME</a></li>
-          <li><a href="/#about">About</a></li>
-          <li><a href="/#skills">Skills</a></li>
-          <li><a href="/#project">Project</a></li>
-          <li><a href="/#contact">Contact</a></li>
-          <li><a href="/login">ADMIN</a></li>
+          <li><Link to="/">home</Link></li>
+          <li><Link to="#about">About</Link></li>
+          <li><Link to="#skills">Skills</Link></li>
+          <li><Link to="#project">Project</Link></li>
+          <li><Link to="#contact">Contact</Link></li>
+          {(() => {
+            if (props.id.hits.id === 'admin') {
+              return (
+                <li><a href="/login/logout">logout</a></li>
+              );
+            }
+            return (
+              <li><a href="/login">login</a></li>
+            );
+          })()}
         </ul>
       </div>
       <div className="header-tit">
@@ -90,7 +91,7 @@ const Footer = () => (
         </li>
         <li>
           <i className="fa fa-github" aria-hidden="true" />
-          <span>Github</span>
+          <span>https://github.com/hansolparkdev</span>
         </li>
       </ul>
     </div>
@@ -198,7 +199,6 @@ function Child() {
 const Login = () => {
   const submitBtn = () => {
     // eslint-disable-next-line no-alert
-    alert('시도');
   };
   return (
     <div className="login_form">
@@ -213,40 +213,53 @@ const Login = () => {
     </div>
   );
 };
-const App = () => (
-  <div id="wrap">
-    <div id="header">
-      <div className="container">
-        <Header />
-      </div>
-    </div>
-    <div id="nav">
-      <div className="container">
-        <div className="nav">
-          <h2>&quot;도전적이고 열정적인 나는 웹 개발자다&quot;</h2>
-        </div>
-      </div>
-    </div>
-    <div id="contents">
-      <Router>
-        <div className="container">
-          <div className="main_contents">
-            <Switch>
-              <Route path="/login" component={Login} />
-              <Route path="/project/:id" children={<Child />} />
-              <Route path="/" component={Main} />
-            </Switch>
+const App = () => {
+  const [data, setData] = useState({ hits: {} });
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(
+        '/login/user_data',
+      );
+      setData(result.data);
+    };
+    fetchData();
+  }, []);
+  return (
+    <Router>
+      <div id="wrap">
+        <div id="header">
+          <div className="container">
+            <Header id={data} />
           </div>
         </div>
-      </Router>
-    </div>
-    <div id="footer">
-      <div className="container">
-        <Footer />
+        <div id="nav">
+          <div className="container">
+            <div className="nav">
+              <h2>&quot;도전적이고 열정적인 나는 웹 개발자다&quot;</h2>
+            </div>
+          </div>
+        </div>
+        <div id="contents">
+          <div className="container">
+            <div className="main_contents">
+              <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/project/:id" children={<Child />} />
+                <Route path="/main" component={Main} />
+                <Route path="/" component={Main} />
+              </Switch>
+            </div>
+          </div>
+        </div>
+        <div id="footer">
+          <div className="container">
+            <Footer />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-);
+    </Router>
+  );
+};
 
 const render = () => {
   ReactDOM.render(<App />, document.getElementById('root'));

@@ -24,6 +24,7 @@ router.get('/', [signAuth], (req, res) => {
   }
   res.render('index', { user: req.user });
 });
+
 router.get('/user_data', (req, res) => {
   if (req.user === undefined) {
     const user = { user: '' };
@@ -31,6 +32,12 @@ router.get('/user_data', (req, res) => {
     return;
   }
   res.json({ hits: req.user });
+});
+
+router.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.redirect('/');
+  });
 });
 
 router.post('/signin', [urlencodedParser, passport.authenticate('local', {
