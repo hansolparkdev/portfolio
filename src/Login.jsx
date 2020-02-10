@@ -3,33 +3,47 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Login = (props) => {
-  const [dataa, setDataa] = useState({ hits: {} });
+  const [data, setData] = useState({ hits: {} });
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
   useEffect(() => {
-    const fetchDataa = async () => {
+    const fetchData = async () => {
       const result = await axios(
         '/data/session_data',
       );
-      setDataa(result.data);
+      setData(result.data);
     };
-    fetchDataa();
+    fetchData();
   }, []);
   // console.log(data.hits.id);
-  if (dataa.hits.id !== undefined) {
+  if (data.hits.id !== undefined) {
     props.history.push('/');
   }
   const submitBtn = () => {
     // eslint-disable-next-line no-alert
+    axios.post(
+      '/signin',
+      {
+        uid: id,
+        upw: password,
+      },
+    ).then((response) => {
+      // console.log(response);
+      if (response.data.id === 'admin') {
+        props.history.push('/');
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   };
   return (
     <div className="login_form">
-      <form action="/signin" method="post" onSubmit={submitBtn}>
-        <p>ADMIN Login</p>
-        <input type="text" id="uid" name="uid" />
-        <br />
-        <input type="password" id="upw" name="upw" />
-        <br />
-        <input type="submit" value="로그인" />
-      </form>
+      <p>ADMIN Login</p>
+      <input type="text" id="uid" name="uid" onChange={(e) => setId(e.target.value)} />
+      <br />
+      <input type="password" id="upw" name="upw" onChange={(e) => setPassword(e.target.value)} />
+      <br />
+      <input type="button" value="로그인" onClick={submitBtn} />
     </div>
   );
 };

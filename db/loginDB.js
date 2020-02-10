@@ -17,7 +17,7 @@ module.exports.signin = (id, password, callback) => {
       }
       console.log(result[0].count);
       if (result[0].count === 0) {
-        console.log('0');
+        console.log('로그인 실패');
         callback(false);
       } else {
         callback(result);

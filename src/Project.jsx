@@ -28,10 +28,20 @@ const Project = () => {
     };
     fetchData();
   }, []);
+  const style = {
+    float: 'right',
+    backgroundColor: '#003755',
+    padding: '15px',
+    color: 'white',
+    borderRadius: '5px',
+  };
   return (
     <div id="project">
       <div className="project">
         <h1 className="sub_tit"><span>project</span></h1>
+        <Link to="/addProject">
+          <h1 style={style}><span>게시물 올리기</span></h1>
+        </Link>
         <ul>
           {data.hits.map((item) => (
             <li key={item.seq}>

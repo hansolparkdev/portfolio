@@ -6,80 +6,32 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const signAuth = require('../services/signAuth');
 
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+// const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // const ensureAuth   = require("../services/ensureAuth")
 // const urlencodedParser = bodyParser.urlencoded({extended : false})
-// const jsonParser = bodyParser.json()
+const jsonParser = bodyParser.json();
 
 // const ensureAuth   = require("../services/ensureAuth")
-
-router.get('/login', [signAuth], (req, res) => {
-  if (req.user === undefined) {
-    const user = { user: '' };
-    res.render('index', { user });
-    return;
-  }
-  res.render('index', { user: req.user });
-});
-
-router.get('/session_data', (req, res) => {
-  if (req.user === undefined) {
-    const user = { user: '' };
-    res.json({ hits: user });
-    return;
-  }
-  res.json({ hits: req.user });
-});
-
-router.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.redirect('/');
-  });
-});
-
-router.post('/signin', [urlencodedParser, passport.authenticate('local', {
-  failureRedirect: '/login',
-})], (req, res) => {
-  res.redirect('/');
-});
-
 router.get('/', (req, res) => {
   res.render('index');
 });
 
-router.get('/login', (req, res) => {
+router.get('/login', [signAuth], (req, res) => {
   res.render('index');
 });
 
-router.get('/session_data', (req, res) => {
-  if (req.user === undefined) {
-    const user = { user: '' };
-    res.json({ hits: user });
-    return;
-  }
-  res.json({ hits: req.user });
-});
-
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
   req.session.destroy();
-  res.render('index');
+  res.send(true);
+});
+
+router.post('/signin', [jsonParser, passport.authenticate('local')], (req, res) => {
+  res.send(req.user);
 });
 
 router.get('/:id', (req, res) => {
-  // const { id } = req.params;
-  if (req.user === undefined) {
-    const user = { user: '' };
-    res.render('index', { user });
-    return;
-  }
-  res.render('index', { user: req.user });
-});
-
-router.post('/signin', [urlencodedParser, passport.authenticate('local', {
-  failureRedirect: '/login',
-})], (req, res) => {
-  res.redirect('/');
+  res.render('index');
 });
 
 module.exports = router;

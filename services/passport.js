@@ -25,7 +25,7 @@ module.exports = () => {
         console.log('err');
         return done(null, false);
       }
-      console.log('success');
+      // console.log('로그인 성공');
       const user = { id };
       return done(null, user);
     });

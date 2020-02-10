@@ -1,15 +1,34 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 // import React, { useState } from 'react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const Header = (props) => {
+const Header = () => {
   // console.log(props.id.hits.id);
-  const loginState = props.id.hits.id;
+  // const loginState = props.id.hits.id;
   // const [data, setData] = useState({ uState: props.id.hits.id });
   // console.log('header');
   // <li><Link to={() => { console.log('a'); }}>asdsd</Link></li>
+  const [data, setData] = useState({ hits: {} });
+  useEffect(() => {
+    // console.log(data);
+    const fetchData = async () => {
+      const result = await axios(
+        '/data/session_data',
+      );
+      setData(result.data);
+    };
+    fetchData();
+  }, [data]);
+  // console.log(data.hits.id);
+  const logOut = (e) => {
+    e.preventDefault();
+    axios.post(
+      '/logout',
+    );
+  };
   return (
     <div className="header">
       <h4 className="ir_pm">header container</h4>
@@ -21,9 +40,9 @@ const Header = (props) => {
           <li><Link to="/#project">Project</Link></li>
           <li><Link to="/#contact">Contact</Link></li>
           {(() => {
-            if (loginState === 'admin') {
+            if (data.hits.id === 'admin') {
               return (
-                <li><a href="/logout">logout</a></li>
+                <li><a href="/logout" onClick={logOut}>logout</a></li>
               );
             }
             return (
