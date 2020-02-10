@@ -38,11 +38,10 @@ const Header = () => {
       <h4 className="ir_pm">header container</h4>
       <div className="header-menu">
         <ul>
-          <li><Link to="/" id="thome">home</Link></li>
-          <li><Link to="/" id="tabout">About</Link></li>
-          <li><Link to="/" id="tskills">Skills</Link></li>
-          <li><Link to="/" id="tproject">Project</Link></li>
-          <li><Link to="/" id="tcontact">Contact</Link></li>
+          <li><a href="/#header" id="thome">home</a></li>
+          <li><a href="/#about" id="tabout">About</a></li>
+          <li><a href="/#skills" id="tskills">Skills</a></li>
+          <li><a href="/#project" id="tproject">Project</a></li>
           {(() => {
             if (data.hits.id === 'admin') {
               return (

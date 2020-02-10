@@ -17,6 +17,7 @@ import AddProject from './AddProject.jsx';
 
 const App = (props) => {
   console.log('app');
+
   return (
     <Router>
       <div id="wrap">
