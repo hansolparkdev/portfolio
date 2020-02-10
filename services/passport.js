@@ -22,8 +22,7 @@ module.exports = () => {
     }
     db.signin(id, password, (result) => {
       if (result === false) {
-        console.log('err');
-        return done(null, false);
+        return done(null, false, { message: '' });
       }
       // console.log('로그인 성공');
       const user = { id };

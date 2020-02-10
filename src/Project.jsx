@@ -1,27 +1,27 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '@babel/polyfill';
 
 const Project = () => {
-  // console.log("project");
-  // const [data, setData] = useState(0);
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
   const [data, setData] = useState({ hits: [] });
-  // useEffect(async () => {
-  //   const result = await axios(
-  //     // 'https://hn.algolia.com/api/v1/search?query=redux',
-  //     '/project_data/getProjectList',
-  //   );
-  //   setData(result.data);
-  // }, []);
-
+  const [user, setUser] = useState({ hits: {} });
+  useEffect(() => {
+    // console.log(data);
+    const fetchData = async () => {
+      const result = await axios(
+        '/data/session_data',
+      );
+      setUser(result.data);
+    };
+    fetchData();
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios(
-        // 'https://hn.algolia.com/api/v1/search?query=redux',
         '/data/getProjectList',
       );
       setData(result.data);
@@ -35,13 +35,20 @@ const Project = () => {
     color: 'white',
     borderRadius: '5px',
   };
+
   return (
     <div id="project">
       <div className="project">
         <h1 className="sub_tit"><span>project</span></h1>
-        <Link to="/addProject">
-          <h1 style={style}><span>게시물 올리기</span></h1>
-        </Link>
+        {(() => {
+          if (user.hits.id === 'admin') {
+            return (
+              <Link to="/addProject">
+                <h1 style={style}><span>게시물 올리기</span></h1>
+              </Link>
+            );
+          }
+        })()}
         <ul>
           {data.hits.map((item) => (
             <li key={item.seq}>

@@ -1,3 +1,17 @@
-h1{
+.add_project_form h1{
     color:red;
+}
+.add_project_form{
+    display: block;
+    margin:0 auto;
+    width: 300px;
+    padding:50px 0;
+}
+input {
+    width: 300px;
+    border:1px solid black;
+    box-sizing: border-box;
+    height:50px;
+    margin:10px 0;
+    background-color: white;
 }

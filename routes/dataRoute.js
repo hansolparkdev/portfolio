@@ -15,6 +15,15 @@ router.get('/getProjectList', (req, res) => {
   });
 });
 
+router.get('/getProject', (req, res) => {
+  const { id } = req.query;
+  console.log(id);
+  db.getProject(id, (result) => {
+    // console.log(result);
+    res.json({ data: result });
+  });
+});
+
 router.get('/session_data', (req, res) => {
   if (req.user === undefined) {
     const user = { user: '' };
