@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 // import React, { useState } from 'react';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
 import axios from 'axios';
 
 const Header = () => {
@@ -38,10 +38,10 @@ const Header = () => {
       <h4 className="ir_pm">header container</h4>
       <div className="header-menu">
         <ul>
-          <li><a href="/#header" id="thome">home</a></li>
-          <li><a href="/#about" id="tabout">About</a></li>
-          <li><a href="/#skills" id="tskills">Skills</a></li>
-          <li><a href="/#project" id="tproject">Project</a></li>
+          <li><Link to="/#header">home</Link></li>
+          <li><Link to="/#about">About</Link></li>
+          <li><Link to="/#skills">Skills</Link></li>
+          <li><Link to="/#project">Project</Link></li>
           {(() => {
             if (data.hits.id === 'admin') {
               return (
